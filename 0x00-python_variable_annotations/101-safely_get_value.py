@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-This module provides a function to safely get a value from a dictionary with a default.
+This module provides a function to safely get a value from a
+dictionary with a default.
 """
 
 from typing import Mapping, Any, TypeVar, Union
 
 # Define a TypeVar for the default value
 T = TypeVar('T')
+
 
 def safely_get_value(
     dct: Mapping[Any, Any],
