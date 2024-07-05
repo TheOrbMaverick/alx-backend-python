@@ -3,23 +3,19 @@
 This module provides a function to zoom into a tuple by repeating its elements.
 """
 
-from typing import List, Tuple
+from typing import Tuple, Any
 
 
-def zoom_array(lst: Tuple[int, ...], factor: int = 2) -> List[int]:
+def zoom_array(lst: Tuple[Any, ...], factor: int = 2) -> Tuple[Any, ...]:
     """
     Zooms into a tuple by repeating its elements.
     """
 
-    zoomed_in: List[int] = [
+    if not isinstance(factor, int):
+        raise ValueError(f"factor should be an integer, got {type(factor).__name__}")
+
+    zoomed_in: Tuple[Any, ...] = tuple(
         item for item in lst
         for i in range(factor)
-    ]
+    )
     return zoomed_in
-
-
-array = (12, 72, 91)  # Must be a tuple
-
-zoom_2x = zoom_array(array)
-
-zoom_3x = zoom_array(array, 3)  # Ensure the factor is an integer
