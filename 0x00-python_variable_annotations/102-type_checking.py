@@ -12,7 +12,9 @@ def zoom_array(lst: Tuple[Any, ...], factor: int = 2) -> Tuple[Any, ...]:
     """
 
     if not isinstance(factor, int):
-        raise ValueError(f"factor should be an integer, got {type(factor).__name__}")
+        raise ValueError(
+            f"factor should be an integer, got {type(factor).__name__}"
+            )
 
     zoomed_in: Tuple[Any, ...] = tuple(
         item for item in lst
