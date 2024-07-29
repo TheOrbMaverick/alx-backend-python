@@ -6,7 +6,8 @@ import unittest
 from unittest.mock import patch, Mock
 from parameterized import parameterized
 from utils import access_nested_map
-from utils import get_json
+from utils import get_json, memoize
+from client import GithubOrgClient
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -47,6 +48,52 @@ class TestGetJson(unittest.TestCase):
             result = get_json(test_url)
             mocked_get.assert_called_once_with(test_url)
             self.assertEqual(result, test_payload)
+
+
+class TestMemoize(unittest.TestCase):
+    """Test case for memoize decorator."""
+
+    class TestClass:
+        """Test class to use with memoize decorator."""
+
+        def a_method(self):
+            """Method to be memoized."""
+            return 42
+        
+        @memoize
+        def a_property(self):
+            """Property that uses memoized method."""
+            return self.a_method()
+        
+    def test_memoize(self):
+        """Test memoize decorator."""
+        with patch.object(self.TestClass, 'a_method', return_value=42) as mock_method:
+            test_obj = self.TestClass()
+            result1 = test_obj.a_property
+            result2 = test_obj.a_property
+
+            mock_method.assert_called_once()
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+
+class TestGithubOrgClient(unittest.TestCase):
+    """Test case for GithubOrgClient class."""
+
+    @parameterized.expand([
+        ("google",),
+        ("abc",),
+    ])
+    @patch('client.get_json')
+    def test_org(self, org_name, mock_get_json):
+        """Test that GithubOrgClient.org returns the correct value."""
+        test_payload = {"login": org_name}
+        mock_get_json.return_value = test_payload
+
+        client = GithubOrgClient(org_name)
+        result = client.org
+
+        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        self.assertEqual(result, test_payload)
 
 
 if __name__ == "__main__":
