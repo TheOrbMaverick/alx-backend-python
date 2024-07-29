@@ -71,7 +71,9 @@ class TestGithubOrgClient(unittest.TestCase):
         cls.mock_get = cls.get_patcher.start()
 
         def side_effect(url):
-            if url == f"https://api.github.com/orgs/{cls.org_payload['login']}":
+            if url == (
+                    f"https://api.github.com/orgs/{cls.org_payload['login']}"
+                    ):
                 return MockResponse(cls.org_payload)
             elif url == cls.org_payload['repos_url']:
                 return MockResponse(cls.repos_payload)
@@ -92,7 +94,9 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_public_repos_with_license(self):
         """Test GithubOrgClient.public_repos method with license filter."""
         client = GithubOrgClient(self.org_payload['login'])
-        self.assertEqual(client.public_repos(license="apache-2.0"), self.apache2_repos)
+        self.assertEqual(
+            client.public_repos(license="apache-2.0"), self.apache2_repos
+            )
 
 
 class MockResponse:
