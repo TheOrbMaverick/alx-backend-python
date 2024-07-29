@@ -37,8 +37,8 @@ class TestGetJson(unittest.TestCase):
     """Test case for get_json function."""
 
     @parameterized.expand([
-    ("http://example.com", {"payload": True}),
-    ("http://holberton.io", {"payload": False}),
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
     ])
     def test_get_json(self, test_url, test_payload):
         """Test get_json returns expected result."""
@@ -59,15 +59,17 @@ class TestMemoize(unittest.TestCase):
         def a_method(self):
             """Method to be memoized."""
             return 42
-        
+
         @memoize
         def a_property(self):
             """Property that uses memoized method."""
             return self.a_method()
-        
+
     def test_memoize(self):
         """Test memoize decorator."""
-        with patch.object(self.TestClass, 'a_method', return_value=42) as mock_method:
+        with patch.object(
+                self.TestClass, 'a_method', return_value=42
+                ) as mock_method:
             test_obj = self.TestClass()
             result1 = test_obj.a_property
             result2 = test_obj.a_property
@@ -75,6 +77,7 @@ class TestMemoize(unittest.TestCase):
             mock_method.assert_called_once()
             self.assertEqual(result1, 42)
             self.assertEqual(result2, 42)
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test case for GithubOrgClient class."""
@@ -92,7 +95,9 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient(org_name)
         result = client.org
 
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}"
+            )
         self.assertEqual(result, test_payload)
 
 
