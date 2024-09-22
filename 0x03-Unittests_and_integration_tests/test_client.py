@@ -49,7 +49,15 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.return_value = payload
 
         with patch('client.GithubOrgClient._public_repos_url') as mock_public:
-            mock_public
+            mock_public.return_value = "What is happening!"
+            test_class = GithubOrgClient('test')
+            result = test_class.public_repos()
+
+            intended = [load["name"] for load in payload]
+            self.assertEqual(result, intended)
+
+            mock_get_json.called_with_once()
+            mock_public.called_with_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
