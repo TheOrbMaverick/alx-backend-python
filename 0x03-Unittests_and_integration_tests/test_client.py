@@ -82,7 +82,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             cls.org_payload, cls.repos_payload, cls.org_payload,
             cls.repos_payload,
         ]}
-        cls.get_patcher = patch('request.get', **config)
+        cls.get_patcher = patch('requests.get', **config)
         cls.mock = cls.get_patcher.start()
 
     def test_public_repo(self):
