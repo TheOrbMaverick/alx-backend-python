@@ -82,8 +82,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             cls.org_payload, cls.repos_payload, cls.org_payload,
             cls.repos_payload,
         ]}
-        cls.get_patch = patch('request.get', **config)
-        cls.mock = cls.get_patch.start()
+        cls.get_patcher = patch('request.get', **config)
+        cls.mock = cls.get_patcher.start()
 
     def test_public_repo(self):
         """ Intergration test for public repo """
@@ -108,4 +108,4 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         """ Run after test """
-        cls.get_patch.stop()
+        cls.get_patcher.stop()
