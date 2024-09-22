@@ -27,7 +27,9 @@ class TestGithubOrgClient(unittest.TestCase):
         returns the correct value based on the given payload.
         """
         # Using the context manager to patch 'client.GithubOrgClient.org'
-        with patch('client.GithubOrgClient.org', new_callable=PropertyMock) as mock_value:
+        with patch(
+            'client.GithubOrgClient.org', new_callable=PropertyMock
+                ) as mock_value:
             # Defining the mock payload for the org
             payload = {"repos_url": "https://api.github.com/orgs/google/repos"}
             mock_value.return_value = payload
@@ -61,9 +63,9 @@ class TestGithubOrgClient(unittest.TestCase):
         result = client.has_license(repo, license_key)
         self.assertEqual(result, expected)
 
-
-    @parameterized_class(("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
-                     TEST_PAYLOAD)
+    @parameterized_class(
+        ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+        TEST_PAYLOAD)
     class TestIntegrationGithubOrgClient(unittest.TestCase):
         """ Integeration test for Fixtures """
         pass
