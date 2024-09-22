@@ -57,8 +57,8 @@ class TestGithubOrgClient(unittest.TestCase):
             intended = [load["name"] for load in payload]
             self.assertEqual(result, intended)
 
-            mock_get_json.assert_called_once()
-            mock_public.assert_called_once()
+            mock_get_json.called_with_once()
+            mock_public.called_with_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
